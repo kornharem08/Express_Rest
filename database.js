@@ -68,7 +68,7 @@ function updateProduct(req, res) {
 
 function deleteProduct(req, res) {
 
-    db.any('delete from products where product_id =' + req.params.id ,
+    db.any('delete from products where product_id =' + req.params.id,
         req.body)
         .then(function (data) {
             res.status(200)
@@ -84,6 +84,87 @@ function deleteProduct(req, res) {
 }
 
 
+function getAllpurchase_items(req, res) {
+    db.any('select * from purchase_items')
+        .then(function (data) {
+            res.status(200)
+                .json({
+                    status: 'success',
+                    data: data,
+                    message: 'Retrieved ALL purchase_items'
+                });
+        })
+        .catch(function (error) {
+            console.log('ERROR:', error)
+        })
+}
+
+function getpurchase_itemsByID(req, res) {
+    db.any('select * from purchase_items where id =' + req.params.id)
+        .then(function (data) {
+            res.status(200)
+                .json({
+                    status: 'success',
+                    data: data,
+                    message: 'Retrieved purchase_items id:' +
+                        req.params.id
+                });
+        })
+        .catch(function (error) {
+            console.log('ERROR:', error)
+            res.status(500)
+                .json({
+                    status: 'failed',
+                    message: 'Failed to retrieve All product'
+                })
+
+        });
+}
+function insertpurchase_items(req, res) {
+    db.any('insert into purchase_items(id, purchase_id, product_id, price, quantity, state)' +
+        'values(${id}, ${purchase_id}, ${product_id}, ${price}, ${quantity}, ${state})', req.body)
+        .then(function (data) {
+            res.status(200)
+                .json({
+                    status: 'success',
+                    message: 'Inserted one purchase_items'
+                });
+        })
+        .catch(function (error) {
+            console.log('ERROR:', error)
+        })
+}
+function updatepurchase_items(req, res) {
+    db.any('update purchase_items set price = ${price} ,quantity=  ${quantity},state=  ${state} where id =' + req.params.id, req.body)
+        .then(function (data) {
+            res.status(200)
+                .json({
+                    status: 'success',
+                    message: 'Update one purchase_items'
+                });
+        })
+        .catch(function (error) {
+            console.log('ERROR:', error)
+        })
+}
+
+function deletepurchase_items(req, res) {
+
+    db.any('delete from purchase_items where id =' + req.params.id,
+        req.body)
+        .then(function (data) {
+            res.status(200)
+                .json({
+                    status: 'success',
+                    message: 'Deleted one purchase_items'
+                });
+        })
+        .catch(function (error) {
+            console.log('ERROR:', error)
+        })
+
+}
+
 
 
 module.exports = {
@@ -91,5 +172,10 @@ module.exports = {
     getProductByID,
     insertProduct,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+    getAllpurchase_items,
+    getpurchase_itemsByID,
+    insertpurchase_items,
+    updatepurchase_items,
+    deletepurchase_items
 };

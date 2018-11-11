@@ -29,7 +29,11 @@ app.get('/api/products/:id', db.getProductByID);
 app.post('/api/products/', db.insertProduct);
 app.put('/api/products/:id', db.updateProduct);
 app.delete('/api/products/:id', db.deleteProduct);
-
+app.get('/api/purchase_items/', db.getAllpurchase_items);
+app.get('/api/purchase_items/:id', db.getpurchase_itemsByID);
+app.post('/api/purchase_items/', db.insertpurchase_items);
+app.put('/api/purchase_items/:id', db.updatepurchase_items);
+app.delete('/api/purchase_items/:id', db.deletepurchase_items);
 
 
 var port = process.env.PORT || 8080;
