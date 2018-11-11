@@ -34,7 +34,11 @@ app.get('/api/purchase_items/:id', db.getpurchase_itemsByID);
 app.post('/api/purchase_items/', db.insertpurchase_items);
 app.put('/api/purchase_items/:id', db.updatepurchase_items);
 app.delete('/api/purchase_items/:id', db.deletepurchase_items);
-
+app.get('/api/purchases/', db.getAllpurchases);
+app.get('/api/purchases/:id', db.getpurchasesByID);
+app.post('/api/purchases/', db.insertpurchases);
+app.put('/api/purchases/:id', db.updatepurchases);
+app.delete('/api/purchases/:id', db.deletepurchases);
 
 var port = process.env.PORT || 8080;
 app.listen(port, function () {
