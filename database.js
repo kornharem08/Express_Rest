@@ -18,7 +18,7 @@ function getAllProducts(req, res) {
 }
 
 function getProductByID(req, res) {
-    db.any('select * from products where id =' + req.params.id)
+    db.any('select * from products where product_id =' + req.params.id)
         .then(function (data) {
             res.status(200)
                 .json({
@@ -39,34 +39,49 @@ function getProductByID(req, res) {
         });
 }
 function insertProduct(req, res) {
-    db.none('insert into products(product_id, title, price, created_at, tags)' +
-    'values(${product_id}, ${title}, ${price}, ${created_at}, ${tags})', req.body)
-    .then(function (data) {
-    res.status(200)
-    .json({
-    status: 'success',
-    message: 'Inserted one product'
-    });
-    })
-    .catch(function (error) {
-    console.log('ERROR:', error)
-    })
-    }
-    function updateProduct(req, res) {
-        db.none('update products set title = ${title} ,price=  ${price}  where product_id =' + req.params.id, req.body)
+    db.any('insert into products(product_id, title, price, created_at, tags)' +
+        'values(${product_id}, ${title}, ${price}, ${created_at}, ${tags})', req.body)
         .then(function (data) {
-        res.status(200)
-        .json({
-        status: 'success',
-        message: 'Update one product'
-        });
+            res.status(200)
+                .json({
+                    status: 'success',
+                    message: 'Inserted one product'
+                });
         })
         .catch(function (error) {
-        console.log('ERROR:', error)
+            console.log('ERROR:', error)
         })
-        }
+}
+function updateProduct(req, res) {
+    db.any('update products set title = ${title} ,price=  ${price}  where product_id =' + req.params.id, req.body)
+        .then(function (data) {
+            res.status(200)
+                .json({
+                    status: 'success',
+                    message: 'Update one product'
+                });
+        })
+        .catch(function (error) {
+            console.log('ERROR:', error)
+        })
+}
 
+function deleteProduct(req, res) {
 
+    db.any('delete from products where product_id =' + req.params.id ,
+        req.body)
+        .then(function (data) {
+            res.status(200)
+                .json({
+                    status: 'success',
+                    message: 'Deleted one product'
+                });
+        })
+        .catch(function (error) {
+            console.log('ERROR:', error)
+        })
+
+}
 
 
 
@@ -75,5 +90,6 @@ module.exports = {
     getAllProducts,
     getProductByID,
     insertProduct,
-    updateProduct
+    updateProduct,
+    deleteProduct
 };
