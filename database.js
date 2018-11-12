@@ -245,7 +245,100 @@ function deletepurchases(req, res) {
         })
 
 }
+function getAllusers(req, res) {
+    db.any('select * from users')
+        .then(function (data) {
+            res.status(200)
+                .json({
+                    status: 'success',
+                    data: data,
+                    message: 'Retrieved ALL purchases'
+                });
+        })
+        .catch(function (error) {
+            console.log('ERROR:', error)
+        })
+}
 
+function getusersByID(req, res) {
+    db.any('select * from users where user_id =' + req.params.id)
+        .then(function (data) {
+            res.status(200)
+                .json({
+                    status: 'success',
+                    data: data,
+                    message: 'Retrieved user id:' +
+                        req.params.id
+                });
+        })
+        .catch(function (error) {
+            console.log('ERROR:', error)
+            res.status(500)
+                .json({
+                    status: 'failed',
+                    message: 'Failed to retrieve All user id'
+                })
+
+        });
+}
+
+function insertUser(req, res) {
+    db.any('insert into users(user_id,email,password,details,created_at)' +
+        'values(${user_id}, ${email}, ${password}, ${details}, ${created_at}',
+        req.body)
+        .then(function (data) {
+            res.status(200)
+                .json({
+                    status: 'success',
+                    data: data,
+                    message: 'Retrieved user id:' +
+                        req.params.id
+                });
+        })
+        .catch(function (error) {
+            console.log('ERROR:', error)
+            res.status(500)
+                .json({
+                    status: 'failed',
+                    message: 'Failed to retrieve All user id'
+                })
+
+        });
+}
+
+
+function updateUser(req, res) {
+    db.any('update users set email=${email},password=${password},details=${details},created_at=${created_at} where user_id =' + req.params.id,
+        req.body)
+        .then(function (data) {
+        })
+        .catch(function (error) {
+            console.log('ERROR:', error)
+        })
+        db.any('select * from users where user_id='+req.params.id).then(function(data){
+            res.status(200).json({
+                status: 'success',
+                data: data,
+                message: 'Update user id='+req.params.id
+            });
+        })
+}
+
+function deleteusers(req, res) {
+
+    db.any('delete from users where user_id =' + req.params.id,req.body)
+        .then(function (data) {
+            res.status(200)
+                .json({
+                    status: 'success',
+                    message: 'Deleted one user'
+                });
+        })
+        .catch(function (error) {
+            console.log('ERROR:', error)
+        })
+
+}
 
 
 
@@ -264,5 +357,11 @@ module.exports = {
     getpurchasesByID,
     insertpurchases,
     updatepurchases,
-    deletepurchases
+    deletepurchases,
+    getAllusers,
+    getusersByID,
+    insertUser,
+    updateUser,
+    deleteusers
+
 };
